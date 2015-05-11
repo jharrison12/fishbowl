@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html>
+
+    <head>
+        <title>Your Mom's Butthole</title>
+    </head>
+
+    <body>
+		<h1>{{ bucket }}</h1>
+		{% if bucket %}
+			{% if slip %}
+			<ul>
+				{% for i in slip %}
+				<li>{{ i.name }}</a></li>
+				{% endfor %}
+			</ul>
+			{% else %}
+				<strong> DERP</strong>
+			{% endif %}
+		{% else %}
+			The bucket {{ bucket }} does not exist
+		{% endif %}
+		
+		<a href="/lottery/bucket/{{ bucket_name_url }}/add_choice/"> Add a slip</a>
+		
+	<p><a href="/lottery/">GO HOME</a></p>
+	<br />
+	
+	
+	</body>
+
+</html>

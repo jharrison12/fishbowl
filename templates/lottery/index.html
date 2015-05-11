@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html>
+
+    <head>
+        <title>Your Mom's</title>
+    </head>
+
+    <body>
+        <h1>Your Mom says...</h1>
+        hello world! <strong>{{ boldmessage }}</strong><br />
+        <a href="/rango/about/">About</a><br />
+		<!-- <img src="{% static "booritter.jpeg" %}" /> -->
+		<img src="{% static 'booritter.jpeg' %}" />
+		<a href="/lottery/add_bucket/">Add a bucket</a><br />
+		
+		{% if buckets %}
+			<ul>
+				{% for bucket in buckets %}
+				<li><a href="/lottery/bucket/{{ bucket.url }}">{{ bucket.name }}</a></li>
+				{% endfor%}
+			</ul>
+		{% else %}
+			<strong> NOPE </strong>
+		{% endif %}
+	
+		
+    </body>
+
+</html>

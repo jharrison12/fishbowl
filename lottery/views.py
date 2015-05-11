@@ -1,0 +1,84 @@
+from django.http import HttpResponse
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from lottery.models import Bucket
+from lottery.models import Slip
+from lottery.forms import BucketForm
+from lottery.forms import SlipForm
+
+def decode_url(str):
+	return str.replace('_', ' ')
+
+def index(request):
+	context = RequestContext(request)
+	#context_dict = {'boldmessage': "I'm a bold font from the context"}
+	bucket_list = Bucket.objects.all()
+	context_dict = {'buckets' : bucket_list}
+	for bucket in bucket_list:
+		bucket.url = bucket.name.replace(' ', '_')
+	return render_to_response('lottery/index.html', context_dict, context)
+	
+def bucket(request, bucket_name_url):
+	context = RequestContext(request)
+	bucket_name = bucket_name_url.replace('_', ' ')
+	context_dict = {'bucket_name': bucket_name}
+	try:
+		bucket = Bucket.objects.get(name=bucket_name)
+		slips = Slip.objects.filter(Bucket=bucket)
+		context_dict['slip'] = slips
+		context_dict['bucket'] = bucket 
+		context_dict['bucket_name_url'] = bucket_name_url
+	except Bucket.DoesNotExist:
+		pass
+	return render_to_response('lottery/bucket.html', context_dict, context)
+	
+def about(request):
+	return HttpResponse("HI")
+	
+def add_bucket(request):
+	context = RequestContext(request)
+	
+	if request.method == 'POST':
+		form = BucketForm(request.POST)
+		if form.is_valid():
+			form.save(commit=True)
+			return index(request)
+		else:
+			print form.errors
+		
+	else:
+		form = BucketForm()
+		
+	return render_to_response('lottery/add_bucket.html', {'form':form}, context)
+	
+def add_slip(request, bucket_name_url):
+	context = RequestContext(request)
+	context_dict = {}
+	bucket_list = Bucket.objects.all()
+	bucket_name = decode_url(bucket_name_url)
+	
+	if request.method == 'POST':
+		form = SlipForm(request.POST)
+		if form.is_valid():
+			slip = form.save(commit=False)
+			try:
+				buck = Bucket.objects.get(name=bucket_name)
+				slip.bucket = buck
+			except Bucket.DoesNotExist:
+				return render_to_response('lottery/add_choice.html', {'bucket_list': bucket_list}, context)
+			
+			slip.save()
+			
+			return bucket(request, bucket_name_url)
+		else:
+			print form.errors
+		
+	else:
+		form = SlipForm()
+		
+	context_dict['bucket_name_url'] = bucket_name_url
+	context_dict['bucket_name'] = bucket_name
+	context_dict['form'] = form
+		
+	return render_to_response('lottery/add_choice.html', context_dict, context)
+	
