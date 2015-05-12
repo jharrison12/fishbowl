@@ -28,6 +28,7 @@ def bucket(request, bucket_name_url):
 		context_dict['slip'] = slips
 		context_dict['bucket'] = bucket 
 		context_dict['bucket_name_url'] = bucket_name_url
+		context_dict['slip_pulled'] = slip_pulled
 	except Bucket.DoesNotExist:
 		pass
 	return render_to_response('lottery/bucket.html', context_dict, context)
@@ -81,4 +82,17 @@ def add_slip(request, bucket_name_url):
 	context_dict['form'] = form
 		
 	return render_to_response('lottery/add_choice.html', context_dict, context)
+	
+def pull_slip(request, bucket_name_url, slip_pulled):
+	context = RequestContext(request)
+	bucket_name = decode_url(bucket_name_url)
+	buckets = Bucket.objects.all()
+	slips = Slip.objects.filter(Bucket=buckets)
+	
+	context_dict['slip_pulled'] = slip_pulled
+	context_dict['bucket_name_url'] = bucket_name_url
+	context_dict['bucket_name'] = bucket_name
+	
+	return render_to_response('lottery/slip_pulled.html', context_dict, context)
+	
 	

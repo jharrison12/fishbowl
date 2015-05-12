@@ -12,8 +12,8 @@ class BucketForm(forms.ModelForm):
 
 		
 class SlipForm(forms.ModelForm):
-	title = forms.CharField(max_length=128, help_text="Please add a choice you would like to win later")
+	name = forms.CharField(max_length=128, help_text="Please add a choice you would like to win later")
 	
 	class Meta:
 		model = Slip
-		#fields = ('name')
+		#fields = ('title')
