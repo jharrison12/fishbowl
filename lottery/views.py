@@ -25,6 +25,14 @@ def bucket(request, bucket_name_url):
 	try:
 		bucket = Bucket.objects.get(name=bucket_name)
 		slips = Slip.objects.filter(Bucket=bucket)
+		def randomslip(slips):
+			list = []
+			for i in slips:
+				list.append(i)
+			return list
+			listnum = {i:v for i,v in enumerate(list)}
+			
+			
 		context_dict['slip'] = slips
 		context_dict['bucket'] = bucket 
 		context_dict['bucket_name_url'] = bucket_name_url
