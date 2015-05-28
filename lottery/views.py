@@ -8,7 +8,7 @@ from lottery.forms import SlipForm
 import random
 
 def decode_url(str):
-	return str.replace('_', ' ') and str.replace("'", "_")
+	return str.replace('_', ' ')
 	
 
 
@@ -85,7 +85,7 @@ def add_slip(request, bucket_name_url):
 				buck = Bucket.objects.get(name=bucket_name)
 				slip.bucket = buck
 			except Bucket.DoesNotExist:
-				return render_to_response('lottery/add_choice.html', {'bucket_list': bucket_list}, context)
+				return render_to_response('lottery/add_choice.html', {}, context)
 			
 			slip.save()
 			
