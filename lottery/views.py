@@ -9,6 +9,12 @@ import random
 
 def decode_url(str):
 	return str.replace('_', ' ')
+
+def encode_url(item):
+	bob = str(item)
+	bobb = bob.replace(' ', '_')
+	return bobb
+
 	
 
 
@@ -43,8 +49,10 @@ def bucket(request, bucket_name_url):
 		#pull slip 
 		if papers:
 			def pull_slip(d):
-				return random.choice(d.values())	
+				bob = random.choice(d.values())
+				return encode_url(bob)
 			slip_pulled = pull_slip(papers)
+			#slip_pulled = encode_url(slip_pulled)
 			context_dict['slip_pulled'] = slip_pulled
 		else:
 			pass 
@@ -106,11 +114,12 @@ def pull_slip(request, bucket_name_url, slip_pulled):
 	context = RequestContext(request)
 	bucket_name = decode_url(bucket_name_url)
 	buckets = Bucket.objects.all()
+	james = decode_url(slip_pulled)
 	slips = Slip.objects.filter(Bucket=buckets)
 	
 	
 	context_dict = {}
-	context_dict['slip_pulled'] = slip_pulled
+	context_dict['james'] = james
 	context_dict['bucket_name_url'] = bucket_name_url
 	context_dict['bucket_name'] = bucket_name
 	
