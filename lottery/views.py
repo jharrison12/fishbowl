@@ -5,9 +5,12 @@ from lottery.models import Bucket
 from lottery.models import Slip
 from lottery.forms import BucketForm
 from lottery.forms import SlipForm
+import random
 
 def decode_url(str):
-	return str.replace('_', ' ')
+	return str.replace('_', ' ') and str.replace("'", "_")
+	
+
 
 def index(request):
 	context = RequestContext(request)
@@ -15,28 +18,36 @@ def index(request):
 	bucket_list = Bucket.objects.all()
 	context_dict = {'buckets' : bucket_list}
 	for bucket in bucket_list:
-		bucket.url = bucket.name.replace(' ', '_')
+		bucket.url = bucket.name.replace(' ', '_') 
+		bucket.url = bucket.url.replace("'", "")
+		#return bucket.url
 	return render_to_response('lottery/index.html', context_dict, context)
-	
+
+
+
 def bucket(request, bucket_name_url):
 	context = RequestContext(request)
 	bucket_name = bucket_name_url.replace('_', ' ')
+	#bucket_name = bucket_name.replace("'", "-")
 	context_dict = {'bucket_name': bucket_name}
 	try:
 		bucket = Bucket.objects.get(name=bucket_name)
 		slips = Slip.objects.filter(Bucket=bucket)
-		def randomslip(slips):
-			list = []
-			for i in slips:
-				list.append(i)
-			return list
-			listnum = {i:v for i,v in enumerate(list)}
-			
-			
+		
+		papers = {i:v for i,v in enumerate(slips)}
+		context_dict['papers'] = papers	
+		#context_dict['dictnum'] = dictnum	
 		context_dict['slip'] = slips
 		context_dict['bucket'] = bucket 
 		context_dict['bucket_name_url'] = bucket_name_url
-		context_dict['slip_pulled'] = slip_pulled
+		#pull slip 
+		if papers:
+			def pull_slip(d):
+				return random.choice(d.values())	
+			slip_pulled = pull_slip(papers)
+			context_dict['slip_pulled'] = slip_pulled
+		else:
+			pass 
 	except Bucket.DoesNotExist:
 		pass
 	return render_to_response('lottery/bucket.html', context_dict, context)
@@ -97,6 +108,8 @@ def pull_slip(request, bucket_name_url, slip_pulled):
 	buckets = Bucket.objects.all()
 	slips = Slip.objects.filter(Bucket=buckets)
 	
+	
+	context_dict = {}
 	context_dict['slip_pulled'] = slip_pulled
 	context_dict['bucket_name_url'] = bucket_name_url
 	context_dict['bucket_name'] = bucket_name
