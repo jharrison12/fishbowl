@@ -15,8 +15,6 @@ def encode_url(item):
 	bobb = bob.replace(' ', '_')
 	return bobb
 
-	
-
 
 def index(request):
 	context = RequestContext(request)
@@ -38,22 +36,25 @@ def bucket(request, bucket_name_url):
 	context_dict = {'bucket_name': bucket_name}
 	try:
 		bucket = Bucket.objects.get(name=bucket_name)
-		slips = Slip.objects.filter(Bucket=bucket)
+		slips = list(Slip.objects.filter(Bucket=bucket))
 		
-		papers = {i:v for i,v in enumerate(slips)}
-		context_dict['papers'] = papers	
+		#papers = {i:v for i,v in enumerate(slips)}
+		#context_dict['papers'] = papers	
 		#context_dict['dictnum'] = dictnum	
 		context_dict['slip'] = slips
 		context_dict['bucket'] = bucket 
 		context_dict['bucket_name_url'] = bucket_name_url
 		#pull slip 
-		if papers:
-			def pull_slip(d):
-				bob = random.choice(d.values())
+		if slips:
+			"""def pull_slip(d):
+				#bob = random.choice(d.values())
+				bob = random.choice.pop(d.values())
 				return encode_url(bob)
-			slip_pulled = pull_slip(papers)
-			#slip_pulled = encode_url(slip_pulled)
+			"""
+			slip_pulled1 = slips.pop(random.randrange(len(slips)))
+			slip_pulled = encode_url(slip_pulled1)
 			context_dict['slip_pulled'] = slip_pulled
+			
 		else:
 			pass 
 	except Bucket.DoesNotExist:
@@ -116,8 +117,8 @@ def pull_slip(request, bucket_name_url, slip_pulled):
 	buckets = Bucket.objects.all()
 	james = decode_url(slip_pulled)
 	slips = Slip.objects.filter(Bucket=buckets)
-	
-	
+	#delete the slip?
+	Slip.objects.filter(name=james).delete()
 	context_dict = {}
 	context_dict['james'] = james
 	context_dict['bucket_name_url'] = bucket_name_url
