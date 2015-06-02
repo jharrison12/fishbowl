@@ -6,6 +6,7 @@ from lottery.models import Slip
 from lottery.forms import BucketForm
 from lottery.forms import SlipForm
 import random
+from lottery.forms import UserForm, UserProfileForm
 
 def decode_url(str):
 	return str.replace('_', ' ')
@@ -56,7 +57,7 @@ def bucket(request, bucket_name_url):
 			context_dict['slip_pulled'] = slip_pulled
 			
 		else:
-			pass 
+			return render_to_response('lottery/bucket.html', context_dict, context)
 	except Bucket.DoesNotExist:
 		pass
 	return render_to_response('lottery/bucket.html', context_dict, context)
@@ -126,4 +127,42 @@ def pull_slip(request, bucket_name_url, slip_pulled):
 	
 	return render_to_response('lottery/slip_pulled.html', context_dict, context)
 	
+def register(request):
+	context = RequestContext(request)
 	
+	registered = False
+	if request.method =='POST':
+		user_form = UserForm(data=request.Post)
+		profile_form = UserProfileForm(data=request.Post)
+		
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+			
+			profile = profile_form.save(commit=False)
+			#not sure about this?
+			"""We also establish a link between the 
+			two model instances that we create. After 
+			creating a new User model instance, 
+			we reference it in the UserProfile 
+			instance with the line profile.user = user. 
+			This is where we populate the user attribute of the 
+			UserProfileForm form, which we hid from users in 
+			Section 8.4.1."""
+			profile.user = user
+			
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
+				
+			profile.save()
+			
+			registered = True
+		else:
+			print user_form.errors, profile_form.errors
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+	
+	return render_to_response('lottery/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered}, context)
+			

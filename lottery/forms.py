@@ -1,6 +1,9 @@
 from django import forms
 from lottery.models import Bucket
 from lottery.models import Slip
+from lottery.models import UserProfile
+from django.contrib.auth.models import User
+
 
 
 class BucketForm(forms.ModelForm):
@@ -17,3 +20,16 @@ class SlipForm(forms.ModelForm):
 	class Meta:
 		model = Slip
 		#fields = ('title')
+		
+class UserForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput())
+	
+	class Meta:
+		model = User
+		fields = ('username', 'email', 'password')
+		
+class UserProfileForm(forms.ModelForm):
+	
+	class Meta:
+		model = UserProfile
+		#fields = ('picture')

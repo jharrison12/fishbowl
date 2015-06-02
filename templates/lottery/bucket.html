@@ -26,7 +26,11 @@
 		{{ slip }}
 		<br />
 		<a href="/lottery/bucket/{{ bucket_name_url }}/add_choice/"> Add a slip</a><br />
-		<a href="/lottery/bucket/{{ bucket_name_url }}/{{ slip_pulled }}/"> Pull a slip</a>
+		{% if slip %}
+			<a href="/lottery/bucket/{{ bucket_name_url }}/{{ slip_pulled }}/"> Pull a slip</a>
+			{% else %}
+			<p>you must add a slip</p>
+		{% endif %}
 		
 	<p><a href="/lottery/">GO HOME</a></p>
 	<br />
