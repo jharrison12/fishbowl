@@ -4,7 +4,7 @@
 <html>
 
     <head>
-        <title>Your Mom's Butthole</title>
+        <title>Your Mom</title>
     </head>
 
     <body>
@@ -22,8 +22,15 @@
 		{% else %}
 			The bucket {{ bucket }} does not exist
 		{% endif %}
-		
-		<a href="/lottery/bucket/{{ bucket_name_url }}/add_choice/"> Add a slip</a>
+		{{ papers }}
+		{{ slip }}
+		<br />
+		<a href="/lottery/bucket/{{ bucket_name_url }}/add_choice/"> Add a slip</a><br />
+		{% if slip %}
+			<a href="/lottery/bucket/{{ bucket_name_url }}/{{ slip_pulled }}/"> Pull a slip</a>
+			{% else %}
+			<p>you must add a slip</p>
+		{% endif %}
 		
 	<p><a href="/lottery/">GO HOME</a></p>
 	<br />

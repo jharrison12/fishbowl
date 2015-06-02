@@ -8,5 +8,7 @@ urlpatterns = patterns('',
 	url(r'^add_bucket/$', views.add_bucket, name='add_bucket'),
 	#url(r'^add_choice/$', views.add_slip, name='add_slip'),
 	url(r'^bucket/(?P<bucket_name_url>\w+)/$', views.bucket, name='bucket'),
-	url(r'^bucket/(?P<bucket_name_url>\w+)/add_choice/$', views.add_slip, name='add_slip')
-	,)
+	url(r'^bucket/(?P<bucket_name_url>\w+)/add_choice/$', views.add_slip, name='add_choice'),
+	url(r'^bucket/(?P<bucket_name_url>\w+)/(?P<slip_pulled>\w+)/$', views.pull_slip, name='pull_slip'),
+	url(r'^register/$', views.register, name='register'),
+	)
