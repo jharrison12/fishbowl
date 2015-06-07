@@ -7,6 +7,10 @@ from lottery.forms import BucketForm
 from lottery.forms import SlipForm
 import random
 from lottery.forms import UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 def decode_url(str):
 	return str.replace('_', ' ')
@@ -166,3 +170,30 @@ def register(request):
 	
 	return render_to_response('lottery/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered}, context)
 			
+			
+def user_login(request):
+	context = RequestContext(request)
+	
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		
+		user = authenticate(username=username, password=password)
+		
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect('/lottery/')
+			else:
+				return HttpResponse("Your Fishbowl account is disabled")
+		else:
+			print "Invalid login details: {0}, {1}".format(username, password)
+			return HttpResponse("Invalid login deteails supplied.")
+	else:
+		
+		return render_to_response('lottery/login.html', {}, context)
+		
+@login_required		
+def user_logout(request):
+	logout(request)
+	return HttpResponseRedirect('/lottery/')

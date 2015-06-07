@@ -8,13 +8,17 @@
     </head>
 
     <body>
-        <h1>Your Mom says...</h1>
+		{% if user.is_authenticated %}
+		<h1>Your Mom says... hello {{ user.username }}!</h1>
+		{% else %}
+		<h1>Your Mom says you need to Register!</h1>
+		{% endif %}
         hello world! <strong>{{ boldmessage }}</strong><br />
         <a href="/rango/about/">About</a><br />
 		<!-- <img src="{% static "booritter.jpeg" %}" /> -->
-		<img src="{% static 'booritter.jpeg' %}" />
-		<a href="/lottery/add_bucket/">Add a bucket</a><br />
-		<a href="/lottery/register/">Register Here</a>
+		<img src="{% static 'booritter.jpeg' %}" /><br />
+		
+		
 		
 		{% if buckets %}
 			<ul>
@@ -24,6 +28,15 @@
 			</ul>
 		{% else %}
 			<strong> NOPE </strong>
+		{% endif %}
+		
+		{% if user.is_authenticated %}
+		<a href="/lottery/add_bucket/">Add a bucket</a><br />
+		<a href="/lottery/logout">Logout</a><br />
+		
+		{% else %}
+		<a href="/lottery/register/">Register Here</a><br />
+		<a href="/lottery/login">Login</a>
 		{% endif %}
 	
 		
