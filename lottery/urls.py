@@ -11,4 +11,6 @@ urlpatterns = patterns('',
 	url(r'^bucket/(?P<bucket_name_url>\w+)/add_choice/$', views.add_slip, name='add_choice'),
 	url(r'^bucket/(?P<bucket_name_url>\w+)/(?P<slip_pulled>\w+)/$', views.pull_slip, name='pull_slip'),
 	url(r'^register/$', views.register, name='register'),
+	url(r'^login/$', views.user_login, name='login'),
+	url(r'^logout/$', views.user_logout, name='logout'),
 	)

@@ -1,13 +1,8 @@
-<!DOCTYPE html>
+{% extends 'lottery/base.html' %}
 
-{% load static %}
-<html>
+{% block title %} {{ bucket }} {% endblock %}
 
-    <head>
-        <title>Your Mom</title>
-    </head>
-
-    <body>
+{% block body_block %}
 		<h1>{{ bucket }}</h1>
 		{% if bucket %}
 			{% if slip %}
@@ -31,11 +26,4 @@
 			{% else %}
 			<p>you must add a slip</p>
 		{% endif %}
-		
-	<p><a href="/lottery/">GO HOME</a></p>
-	<br />
-	
-	
-	</body>
-
-</html>
+{% endblock %}
