@@ -1,18 +1,13 @@
-<!DOCTYPE html>
+{% extends 'lottery/base.html' %}
 
-{% load static %}
-<html>
+{% block title %} Add a Choice! {% endblock %}
 
-    <head>
-        <title>Your Mom's </title>
-    </head>
-	<body>
+{% block body_block %}
+<div class="hero-unit">
 	<p> Congratulations!  You PULLED {{ james }} </p>
 
 	<p><a href="/lottery/">GO HOME</a></p>
 	<br />
 	
-	
-	</body>
-
-</html>
+</div>	
+{% endblock %}
