@@ -1,22 +1,17 @@
-<!DOCTYPE html>
+{% extends 'lottery/base.html' %}
 
-{% load static %}
-<html>
+{% block title %} Your Mom {% endblock %}
 
-    <head>
-        <title>Your Mom's</title>
-    </head>
-
-    <body>
+	{% block body_block %}
+	<div class="hero-unit">
 		{% if user.is_authenticated %}
-		<h1>Your Mom says... hello {{ user.username }}!</h1>
-		{% else %}
-		<h1>Your Mom says you need to Register!</h1>
+			<h1>Your Mom says... hello {{ user.username }}!</h1>
+			{% else %}
+			<h1>Your Mom says you need to Register!</h1>
 		{% endif %}
-        hello world! <strong>{{ boldmessage }}</strong><br />
-        <a href="/rango/about/">About</a><br />
-		<!-- <img src="{% static "booritter.jpeg" %}" /> -->
-		<img src="{% static 'booritter.jpeg' %}" /><br />
+			hello world! <strong>{{ boldmessage }}</strong><br />
+			{% load static %}
+			<img src={% static "booritter.jpeg" %} /><br />
 		
 		
 		
@@ -29,17 +24,7 @@
 		{% else %}
 			<strong> NOPE </strong>
 		{% endif %}
-		
-		{% if user.is_authenticated %}
-		<a href="/lottery/add_bucket/">Add a bucket</a><br />
-		<a href="/lottery/logout">Logout</a><br />
-		
-		{% else %}
-		<a href="/lottery/register/">Register Here</a><br />
-		<a href="/lottery/login">Login</a>
-		{% endif %}
-	
-		
-    </body>
+	</div>
+	{% endblock %}
 
 </html>

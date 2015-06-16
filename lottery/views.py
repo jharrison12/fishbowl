@@ -22,6 +22,7 @@ def encode_url(item):
 
 
 def index(request):
+	#request.session.set_test_cookie()
 	context = RequestContext(request)
 	#context_dict = {'boldmessage': "I'm a bold font from the context"}
 	bucket_list = Bucket.objects.all()
@@ -57,6 +58,7 @@ def bucket(request, bucket_name_url):
 				return encode_url(bob)
 			"""
 			slip_pulled1 = slips.pop(random.randrange(len(slips)))
+			slips.append(slip_pulled1)
 			slip_pulled = encode_url(slip_pulled1)
 			context_dict['slip_pulled'] = slip_pulled
 			
@@ -132,6 +134,9 @@ def pull_slip(request, bucket_name_url, slip_pulled):
 	return render_to_response('lottery/slip_pulled.html', context_dict, context)
 	
 def register(request):
+	"""if request.session.test_cookie_worked():
+		print ">>>> TEST COOKIE WORKED!"
+		request.session.delete_test_cookie()"""
 	context = RequestContext(request)
 	
 	registered = False

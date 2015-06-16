@@ -1,13 +1,9 @@
-<!DOCTYPE html>
+{% extends 'lottery/base.html' %}
 
-{% load static %}
-<html>
+{% block title %} Add a Bucket! {% endblock %}
 
-    <head>
-        <title>Add a bucket!</title>
-    </head>
-
-    <body>
+{% block body_block %}
+	<div class="hero-unit">
       <h1> Add a bucket!</h1>
 	  
 	  <form id="bucket_form" method="post" action="/lottery/add_bucket/">
@@ -25,7 +21,5 @@
 		
 		<input type="submit" name="submit" value="Create bucket "/>
 	  
-	  
-    </body>
-
-</html>
+	</div>  
+{% endblock %}

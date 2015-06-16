@@ -3,6 +3,7 @@
 {% block title %} {{ bucket }} {% endblock %}
 
 {% block body_block %}
+	<div class="hero-unit">
 		<h1>{{ bucket }}</h1>
 		{% if bucket %}
 			{% if slip %}
@@ -26,4 +27,5 @@
 			{% else %}
 			<p>you must add a slip</p>
 		{% endif %}
+	</div>
 {% endblock %}
