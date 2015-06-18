@@ -13,19 +13,21 @@
 				{% endfor %}
 			</ul>
 			{% else %}
-				<strong> DERP</strong>
+				<strong> No slips</strong>
 			{% endif %}
 		{% else %}
 			The bucket {{ bucket }} does not exist
 		{% endif %}
-		{{ papers }}
-		{{ slip }}
 		<br />
+		{% if user.is_authenticated %}
 		<a href="/lottery/bucket/{{ bucket_name_url }}/add_choice/"> Add a slip</a><br />
+		{% else %}
+		<p>You must be registered to add a slip to {{ bucket }}</p>
+		{% endif %}
 		{% if slip %}
 			<a href="/lottery/bucket/{{ bucket_name_url }}/{{ slip_pulled }}/"> Pull a slip</a>
 			{% else %}
-			<p>you must add a slip</p>
+			
 		{% endif %}
 	</div>
 {% endblock %}

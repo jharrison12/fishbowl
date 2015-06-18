@@ -7,7 +7,7 @@
 		{% if user.is_authenticated %}
 			<h1>Your Mom says... hello {{ user.username }}!</h1>
 			{% else %}
-			<h1>Your Mom says you need to Register!</h1>
+			<h1>Your Mom says you need to Register to add Buckets or Slips!</h1>
 		{% endif %}
 			hello world! <strong>{{ boldmessage }}</strong><br />
 			{% load static %}
@@ -16,6 +16,7 @@
 		
 		
 		{% if buckets %}
+			<h2>Buckets</h2>
 			<ul>
 				{% for bucket in buckets %}
 				<li><a href="/lottery/bucket/{{ bucket.url }}">{{ bucket.name }}</a></li>
